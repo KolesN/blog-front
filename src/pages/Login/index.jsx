@@ -18,6 +18,8 @@ export const Login = () => {
   const onSubmit = (values) => {
     console.log(values)
   }
+  
+  console.log('Checking')
 
   return (
     <Paper classes={{ root: styles.root }}>
