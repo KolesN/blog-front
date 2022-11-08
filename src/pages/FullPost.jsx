@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from 'react-router-dom'
+import ReactMarkdown from "react-markdown";
 
 import { Post } from "../components/Post";
 import { Index } from "../components/AddComment";
@@ -22,7 +23,7 @@ export const FullPost = () => {
         console.warn(err)
         alert('Error fetching post')
       })
-  }, [])
+  })
 
 if (isLoading) {
   return <Post isLoading={isLoading}  isFullPost />
@@ -33,7 +34,7 @@ if (isLoading) {
       <Post
         id={data.id}
         title={data.title}
-        imageUrl={data.imageUrl}
+        imageUrl={`http://localhost:3000${data.imageUrl}`}
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
@@ -41,7 +42,7 @@ if (isLoading) {
         tags={data.tags}
         isFullPost
       >
-        <p>{data.text}</p>
+        <ReactMarkdown children={data.text} />
       </Post>
       <CommentsBlock
         items={[
