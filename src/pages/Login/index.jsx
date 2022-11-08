@@ -40,6 +40,8 @@ export const Login = () => {
   if (isAuth) {
     return <Navigate to="/" />
   }
+  
+  console.log('Checking')
 
   return (
     <Paper classes={{ root: styles.root }}>
