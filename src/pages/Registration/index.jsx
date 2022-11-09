@@ -20,7 +20,7 @@ export const Registration = () => {
     formState: { errors, isValid }
   } = useForm({
     defaultValues: {
-      fullname: '',
+      fullName: '',
       email: '',
       password: ''
     },
@@ -31,7 +31,7 @@ export const Registration = () => {
     const data = await dispatch(fetchRegister(values))
 
     if (!data.payload) {
-      alert('Failed to authorize')
+      alert('Failed to register')
     }
 
     if ('token' in data.payload) {
@@ -55,33 +55,34 @@ export const Registration = () => {
         <TextField
           className={styles.field}
           label="Полное имя"
-          error={Boolean(errors.fullName.message)}
-          helperText={errors.fullName.message}
+          error={Boolean(errors.fullName)}
+          helperText={errors.fullName ? errors.fullName.message : ''}
           { ...register('fullName', { required: 'Enter your full name' }) }
           fullWidth
         />
         <TextField
           className={styles.field}
           label="Почта"
-          error={Boolean(errors.email.message)}
-          helperText={errors.email.message}
+          error={Boolean(errors.email)}
+          helperText={errors.email ? errors.email.message : ''}
           type="E-Mail"
-          { ...register('mail', { required: 'Enter email' }) }
+          { ...register('email', { required: 'Enter email' }) }
           fullWidth
         />
         <TextField
           className={styles.field}
           label="Пароль"
-          error={Boolean(errors.password.message)}
-          helperText={errors.password.message}
+          error={Boolean(errors.password)}
+          helperText={errors.password ? errors.password.message : ''}
           type="password"
           { ...register('password', { required: 'Enter password' }) }
           fullWidth
         />
+        <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
+          Зарегистрироваться
+        </Button>
       </form>
-      <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
-        Зарегистрироваться
-      </Button>
+
     </Paper>
   );
 };

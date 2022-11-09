@@ -30,7 +30,7 @@ export const Login = () => {
     const data = await dispatch(fetchAuth(values))
 
     if (!data.payload) {
-      alert('Failed to register')
+      alert('Failed to login')
     }
 
     if ('token' in data.payload) {
@@ -54,16 +54,16 @@ export const Login = () => {
           <TextField
             className={styles.field}
             label="E-Mail"
-            error={Boolean(errors.email.message)}
-            helperText={errors.email.message}
+            error={Boolean(errors.email)}
+            helperText={errors.email ? errors.email.message : ''}
             { ...register('email', { required: 'Enter email' }) }
             fullWidth
           />
           <TextField
             className={styles.field}
             label="Пароль"
-            error={Boolean(errors.password.message)}
-            helperText={errors.password.message}
+            error={Boolean(errors.password)}
+            helperText={errors.password ? errors.password.message : ''}
             { ...register('password', { required: 'Enter password' }) }
             fullWidth
           />

@@ -20,11 +20,11 @@ export const Home = () => {
   React.useEffect(() => {
     dispatch(fetchPosts())
     dispatch(fetchTags())
-  })
+  }, [])
 
   return (
     <>
-      <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
+      {/* <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Tab label="Новые" />
         <Tab label="Популярные" />
       </Tabs>
@@ -72,7 +72,10 @@ export const Home = () => {
             isLoading={false}
           />
         </Grid>
-      </Grid>
+      </Grid> */}
+      <div className="he">
+        Working
+      </div>
     </>
   );
 };
