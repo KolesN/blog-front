@@ -25,10 +25,10 @@ const initialState = {
     items: [],
     status: 'loading'
   },
-  comments: {
-    items: [],
-    status: 'loading'
-  }
+  // comments: {
+  //   items: [],
+  //   status: 'loading'
+  // }
 }
 
 const postsSlice = createSlice({
@@ -36,7 +36,7 @@ const postsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    //  Geting posts
+    //  Fetching posts
     [fetchPosts.pending]: (state) => {
       state.posts.items = []
       state.posts.status = 'loading'
@@ -49,6 +49,8 @@ const postsSlice = createSlice({
       state.posts.items = []
       state.posts.status = 'error'
     },
+
+    // Fetching tags
     [fetchTags.pending]: (state) => {
       state.tags.items = []
       state.tags.status = 'loading'
@@ -61,17 +63,10 @@ const postsSlice = createSlice({
       state.tags.items = []
       state.tags.status = 'error'
     },
-    [fetchRemovePost.pending]: (state) => {
-      state.tags.items = []
-      state.tags.status = 'loading'
-    },
-    [fetchRemovePost.fulfilled]: (state, action) => {
-      state.tags.items = action.payload
-      state.tags.status = 'loaded'
-    },
-    [fetchRemovePost.rejected]: (state) => {
-      state.tags.items = []
-      state.tags.status = 'error'
+
+    //  Removing post
+    [fetchRemovePost.pending]: (state, action) => {
+      state.posts.items = state.posts.items.filter(obj => obj._id !== action.meta.arg)
     },
   }
 })

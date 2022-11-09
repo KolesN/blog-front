@@ -7,11 +7,12 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import { selectIsAuth } from '../../redux/slices/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from '../../axios';
 
 export const AddPost = () => {
+  const { id } = useParams()
   const navigate = useNavigate()
   const isAuth = useSelector(selectIsAuth)
   const [isLoading, setLoading] = React.useState(false)
@@ -21,6 +22,8 @@ export const AddPost = () => {
   const [imageUrl, setImageUrl] = React.useState('')
   const inputFileRef = React.useRef(null)
 
+  const isEditing = Boolean(id)
+
   const handleChangeFile = async (event) => {
     try {
       const formData = new FormData()
@@ -28,7 +31,7 @@ export const AddPost = () => {
       formData.append('image', file)
       const { data } = await axios.post('/upload', formData)
       setImageUrl(data.url)
-    } catch (errr) {
+    } catch (err) {
       console.warn(err)
       alert('Error downloading file')
     }
@@ -49,22 +52,35 @@ export const AddPost = () => {
       const fields = {
         title,
         imageUrl,
-        tags: tags.split(','),
+        tags,
         text
 
       }
 
-      const { data } = await axios.post('/posts', fields)
+      const { data } = isEditing
+      ? await axios.patch(`/posts/${id}`, fields)
+      : await axios.post('/posts', fields)
 
-      const id = data._id
+      const _id = isEditing ? id : data._id
 
-      navigate(`/posts/${id}`)
+      navigate(`/posts/${_id}`)
 
     } catch (err) {
       console.warn(err)
       alert('Error creating a post')
     }
   }
+
+  React.useEffect(() => {
+    if (id) {
+      axios.get(`/posts/${id}`).then(({ data }) => {
+        setTitle(data.title)
+        setText(data.text)
+        setImageUrl(data.imageUrl)
+        setTags(data.tags.join(','))
+      })
+    }
+  }, [])
 
   const options = React.useMemo(
     () => ({
@@ -96,7 +112,7 @@ export const AddPost = () => {
           <Button variant="contained" color="error" onClick={onClickRemoveImage}>
             Удалить
           </Button>
-          <img className={styles.image} src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
+          <img className={styles.image} src={`http://localhost:8090${imageUrl}`} alt="Uploaded" />
         </>
       )}
       <br />
@@ -120,7 +136,7 @@ export const AddPost = () => {
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
-          Опубликовать
+          {isEditing ? 'Сохранить' : 'Опубликовать'}
         </Button>
         <a href="/">
           <Button size="large">Отмена</Button>
@@ -128,4 +144,4 @@ export const AddPost = () => {
       </div>
     </Paper>
   );
-};
+}

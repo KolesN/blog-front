@@ -1,7 +1,8 @@
 import axios from 'axios'
 
+const port = process.env.PORT || 8090
 const instance = axios.create({
-  baseURL: 'http://localhost:3333'
+  baseURL: `http://localhost:${port}`
 })
 
 instance.interceptors.request.use((config) => {
