@@ -1,4 +1,3 @@
-import { ErrorRounded } from "@mui/icons-material";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import axios from "../../axios";
@@ -21,14 +20,13 @@ export const fetchRegister = createAsyncThunk(
       return data;
     } catch (err) {
       console.log("errrrrrorrrr", err);
-      throw err.response.data;
+      throw err;
     }
   }
 );
 
 const initialState = {
   data: null,
-  error: [],
   status: "loading",
 };
 
@@ -73,9 +71,8 @@ const authSlice = createSlice({
       state.status = "loaded";
       state.data = action.payload;
     },
-    [fetchRegister.rejected]: (state, action) => {
+    [fetchRegister.rejected]: (state) => {
       state.status = "error";
-      state.error = action;
       state.data = null;
     },
   },

@@ -14,11 +14,11 @@ export const FullPost = () => {
 
   React.useEffect(() => {
     axios
-      .get(`/posts/${id}`
+      .get(`/posts/${id}`)
       .then(res => {
         setData(res.data)
         setLoading(false)
-      }))
+      }) 
       .catch((err) => {
         console.warn(err)
         alert('Error fetching post')
