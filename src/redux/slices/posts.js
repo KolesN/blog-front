@@ -12,10 +12,10 @@ export const fetchTags = createAsyncThunk('posts/fetchTags', async () => {
   return data
 })
 
-export const fetchComments = createAsyncThunk('posts/fetchComments', async () => {
-  const { data } = await axios.get('/comments')
-  return data
-})
+// export const fetchComments = createAsyncThunk('posts/fetchComments', async () => {
+//   const { data } = await axios.get('/comments')
+//   return data
+// })
 
 export const fetchRemovePost = createAsyncThunk('posts/fetchRemovePost', async (id) => {
   axios.delete(`/posts/${id}`)
@@ -75,18 +75,18 @@ const postsSlice = createSlice({
     },
 
     // Fetching comments
-    [fetchComments.pending]: (state) => {
-      state.tags.items = []
-      state.tags.status = 'loading'
-    },
-    [fetchComments.fulfilled]: (state, action) => {
-      state.tags.items = action.payload
-      state.tags.status = 'loaded'
-    },
-    [fetchComments.rejected]: (state) => {
-      state.tags.items = []
-      state.tags.status = 'error'
-    },
+    // [fetchComments.pending]: (state) => {
+    //   state.tags.items = []
+    //   state.tags.status = 'loading'
+    // },
+    // [fetchComments.fulfilled]: (state, action) => {
+    //   state.tags.items = action.payload
+    //   state.tags.status = 'loaded'
+    // },
+    // [fetchComments.rejected]: (state) => {
+    //   state.tags.items = []
+    //   state.tags.status = 'error'
+    // },
   }
 })
 

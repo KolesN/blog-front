@@ -7,14 +7,13 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { fetchComments, fetchPosts, fetchTags } from '../redux/slices/posts';
+import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export const Home = () => {
   const dispatch = useDispatch()
   const userData = useSelector((state) => state.auth.data)
-  const { posts, tags, comments } = useSelector(state => state.posts)
-  const commentsTemplate = [
-    {
+  const { posts, tags } = useSelector(state => state.posts)
+  const commentsTemplate = [{
       user: {
         fullName: 'Вася Пупкин',
         avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
@@ -32,12 +31,12 @@ export const Home = () => {
 
   const isPostsLoading = posts.status === 'loading'
   const isTagsLoading = tags.status === 'loading'
-  const isCommentsLoading = comments.status === 'loading'
+//  const isCommentsLoading = comments.status === 'loading'
 
   React.useEffect(() => {
     dispatch(fetchPosts())
     dispatch(fetchTags())
-    dispatch(fetchComments())
+//    dispatch(fetchComments())
   }, [])
 
   return (
@@ -71,8 +70,8 @@ export const Home = () => {
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
-            items={comments.items}
-            isLoading={isCommentsLoading}
+            items={commentsTemplate}
+            isLoading={false}
           />
         </Grid>
       </Grid>
