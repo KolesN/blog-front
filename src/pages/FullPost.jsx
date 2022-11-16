@@ -18,7 +18,7 @@ export const FullPost = () => {
       .then(res => {
         setData(res.data)
         setLoading(false)
-      }) 
+      })
       .catch((err) => {
         console.warn(err)
         alert('Error fetching post')
@@ -34,7 +34,7 @@ if (isLoading) {
       <Post
         id={data.id}
         title={data.title}
-        imageUrl={data.imageUrl ? `http://localhost:3000${data.imageUrl}` : ''}
+        imageUrl={data.imageUrl ? `http://localhost:8080${data.imageUrl}` : ''}
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
